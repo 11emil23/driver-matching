@@ -34,7 +34,7 @@ public class MatcherTests
             m.UpsertDriver(30, 3, 3);
 
             var res = m.FindNearest5(0, 0);
-            Assert.That(res.Count, Is.EqualTo(3));
+            Assert.That(res.Count, Is.EqualTo(3), $"Matcher={m.GetType().Name} returned {res.Count}");
             AssertSorted(res);
         }
     }
@@ -50,7 +50,7 @@ public class MatcherTests
             m.UpsertDriver(1, 0, 1);
 
             var res = m.FindNearest5(0, 0);
-            Assert.That(res.Count, Is.EqualTo(2));
+            Assert.That(res.Count, Is.EqualTo(2), $"Matcher={m.GetType().Name} returned {res.Count}");
             Assert.That(res[0].DriverId, Is.EqualTo(1));
             Assert.That(res[1].DriverId, Is.EqualTo(2));
         }

@@ -1,9 +1,5 @@
 namespace DriverMatching.Core;
 
-/// <summary>
-/// Fixed-size Top-5 container sorted by (Dist2, DriverId).
-/// Returns only inserted items (Count).
-/// </summary>
 internal struct Top5
 {
     private const int K = 5;
@@ -40,7 +36,8 @@ internal struct Top5
     public NearestResult[] ToArraySorted()
     {
         var res = new NearestResult[_count];
-        for (int i = 0; i < _count; i++) res[i] = Get(i);
+        for (int i = 0; i < _count; i++)
+            res[i] = Get(i);
         return res;
     }
 

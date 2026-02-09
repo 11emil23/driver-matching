@@ -1,8 +1,8 @@
 namespace DriverMatching.Core;
 
 /// <summary>
-/// Algorithm 2: Expanding square rings over grid cells (fast on dense maps).
-/// Uses a safe check against DriversById to avoid any inconsistent ids.
+/// Algorithm 2: expanding square rings over grid cells.
+/// Safe: ignores empty cells, validates ids, and avoids duplicates.
 /// </summary>
 public sealed class RingGridMatcher : IDriverMatcher
 {
@@ -19,6 +19,9 @@ public sealed class RingGridMatcher : IDriverMatcher
         var grid = _store.Grid;
         int n = _store.N, m = _store.M;
 
+        // protects from accidental double-visits / duplicates
+        var seen = new HashSet<int>();
+
         for (int r = 0; r <= Math.Max(n, m); r++)
         {
             int minX = Math.Max(0, orderX - r);
@@ -26,12 +29,14 @@ public sealed class RingGridMatcher : IDriverMatcher
             int minY = Math.Max(0, orderY - r);
             int maxY = Math.Min(m - 1, orderY + r);
 
+            // top + bottom edges
             for (int x = minX; x <= maxX; x++)
             {
                 TryCell(x, minY);
                 if (maxY != minY) TryCell(x, maxY);
             }
 
+            // left + right edges (without corners)
             for (int y = minY + 1; y <= maxY - 1; y++)
             {
                 TryCell(minX, y);
@@ -48,7 +53,9 @@ public sealed class RingGridMatcher : IDriverMatcher
         void TryCell(int x, int y)
         {
             int id = grid[x, y];
-            if (id == -1) return;
+
+            if (id <= 0) return;      // invalid ids are ignored
+            if (!seen.Add(id)) return; // avoid duplicates
 
             if (!_store.DriversById.TryGetValue(id, out var pos))
                 return;
