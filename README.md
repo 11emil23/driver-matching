@@ -23,6 +23,17 @@ dotnet run -c Release --project DriverMatching.Benchmarks
 ```
 
 ## Результаты BenchmarkDotNet
-Добавьте скриншот `benchmark_results.png` в корень репозитория и вставьте сюда:
+// * Summary *
 
-![Benchmark](benchmark_results.png)
+BenchmarkDotNet v0.14.0, Ubuntu 24.04.3 LTS (Noble Numbat) (container)
+AMD EPYC 7763, 1 CPU, 2 logical cores and 1 physical core
+.NET SDK 10.0.100
+  [Host]     : .NET 10.0.0 (10.0.25.52411), X64 RyuJIT AVX2
+  DefaultJob : .NET 10.0.0 (10.0.25.52411), X64 RyuJIT AVX2
+
+
+| Method     | Mean         | Error      | StdDev     | Ratio | RatioSD | Gen0   | Allocated | Alloc Ratio |
+|----------- |-------------:|-----------:|-----------:|------:|--------:|-------:|----------:|------------:|
+| FullScan   |   444.291 us |  7.9617 us | 14.9541 us | 1.001 |    0.05 |      - |     200 B |        1.00 |
+| RingGrid   |     1.696 us |  0.0333 us |  0.0601 us | 0.004 |    0.00 | 0.0401 |     674 B |        3.37 |
+| BucketGrid | 1,390.240 us | 27.5698 us | 70.1738 us | 3.133 |    0.19 |      - |     145 B |        0.72 |
