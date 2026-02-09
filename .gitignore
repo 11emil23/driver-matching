@@ -1,0 +1,9 @@
+bin/
+obj/
+**/bin/
+**/obj/
+BenchmarkDotNet.Artifacts/
+.vs/
+.vscode/
+.DS_Store
+Thumbs.db
